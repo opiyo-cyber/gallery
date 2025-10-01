@@ -16,6 +16,8 @@ The project includes the following major milestones:
 - Forked and cloned the provided GitHub repository.
 - Created a MongoDB Atlas cluster and database user.
 - Updated the `_config.js` file with MongoDB Atlas connection credentials.
+- <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0d671957-9b54-4871-9b08-8d865e20b98e" />
+
 
 > ✅ Status: **Completed**
 
