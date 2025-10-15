@@ -15,6 +15,8 @@ pipeline {
         NODE_ENV = 'production'
         RENDER_DEPLOY_HOOK_URL = credentials('render_deploy_hook_url')
         NOTIFY_EMAIL = credentials('notify_email')
+        SLACK_WEBHOOK_URL = credentials('slack_webhook_url')
+        RENDER_URL = 'https://your-render-app.onrender.com'
     }
 
     stages {
@@ -71,6 +73,18 @@ pipeline {
     post {
         success {
             echo '✅ Build and deployment succeeded!'
+            script {
+                if (env.SLACK_WEBHOOK_URL) {
+                    writeFile file: 'slack_payload.json', text: """
+{
+  \"text\": "✅ Build Successful: #${env.BUILD_NUMBER}\n🔗 View App: ${env.RENDER_URL}"
+}
+"""
+                    sh 'curl -fsS -X POST -H "Content-type: application/json" --data @slack_payload.json "$SLACK_WEBHOOK_URL"'
+                } else {
+                    echo 'SLACK_WEBHOOK_URL not configured; skipping Slack notification.'
+                }
+            }
         }
         failure {
             echo '❌ Build or deployment failed!'

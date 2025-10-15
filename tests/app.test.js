@@ -17,5 +17,6 @@ describe('GET /', () => {
     expect(res.status).toBe(200);
     expect(res.text).toContain('MILESTONE 2');
     expect(res.text).toContain('MILESTONE 3');
+    expect(res.text).toContain('MILESTONE 4');
   });
 });
