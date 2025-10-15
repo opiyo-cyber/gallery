@@ -58,6 +58,8 @@ The project includes the following major milestones:
   - Send a Slack notification on successful deployment.
   - Include the **Build ID** and **Render deployment URL** in the message.
 - Modified the landing page to include **“MILESTONE 4”**.
+  <img width="1691" height="803" alt="image" src="https://github.com/user-attachments/assets/49150531-dd41-430a-8775-14da5b59c00d" />
+
 
 > ✅ Status: **Slack notifications working**
 
