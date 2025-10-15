@@ -9,19 +9,6 @@ const path = require('path');
 let index = require('./routes/index');
 let image = require('./routes/image');
 
-// Connecting to the database using the MONGO_URI from the environment variable
-let mongodb_url = process.env.MONGO_URI;  // MongoDB URI from .env file
-let dbName = 'darkroom';
-
-// Connect to MongoDB Atlas
-mongoose.connect(`${mongodb_url}${dbName}`, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
-    if (err) {
-        console.log('MongoDB connection error:', err);
-    } else {
-        console.log('Database connected successfully');
-    }
-});
-
 // Initializing the app
 const app = express();
 
@@ -38,8 +25,27 @@ app.use(express.json());
 app.use('/', index);
 app.use('/image', image);
 
-// Set up the port for the server to listen on
+// Connecting to the database using the MONGO_URI from the environment variable
+let mongodb_url = process.env.MONGO_URI; // MongoDB URI from .env file
+let dbName = 'darkroom';
+
+// Only connect to MongoDB when not running tests
+if (process.env.NODE_ENV !== 'test') {
+  mongoose.connect(`${mongodb_url}${dbName}`, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+    if (err) {
+      console.log('MongoDB connection error:', err);
+    } else {
+      console.log('Database connected successfully');
+    }
+  });
+}
+
+// Export the app for testing, and only start the server if this file is run directly
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+if (require.main === module) {
+  app.listen(PORT, () => {
     console.log(`Server is listening at http://localhost:${PORT}`);
-});
+  });
+}
+
+module.exports = app;
